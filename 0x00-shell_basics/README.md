@@ -3,3 +3,4 @@
 - 2-bring_me_home script changes the working directory to the user’s home directory
 - 3-listfiles script display current directory contents in a long format  
 - 6-firstdirectory script creates a directory named my_first_directory in the /tmp/ directory
+- 7-movethatfile script move the file betty from /tmp/ to /tmp/my_first_directory
