@@ -4,3 +4,4 @@
 - 3-listfiles script display current directory contents in a long format  
 - 6-firstdirectory script creates a directory named my_first_directory in the /tmp/ directory
 - 7-movethatfile script move the file betty from /tmp/ to /tmp/my_first_directory
+- 8-firstdelete script delete the file betty in /tmp/my_first_directory
