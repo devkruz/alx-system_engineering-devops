@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Displays To infinity and beyond indefinitely.
+# Sleep 2 in between each iteration
+# Give feedback when 'SIGTERM' is recieved
+
+
+while [ 1 ]
+do
+    echo "To infinity and beyond"
+    sleep 2
+    trap "echo 'I am invicible!!!'" SIGTERM
+done
