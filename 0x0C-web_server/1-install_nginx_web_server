@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+# configures nginx on a new Ubuntu machine
+
+# Color styles
+# blue='\e[1;34m'
+brown='\e[0;33m'
+# green='\e[1;32m'
+white='\033[0m'
+# red='\033[31m'
+
+echo -e "Let setup ${brown}Nginx.${white}\n";
+echo -e "Update apt packege\n";
+sudo apt update;
+
+echo -e "Install ${brown}Nginx.${white}\n";
+sudo apt install nginx -y;
+
+# Start nginx servie
+echo -e "-------Start ${brown}Nginx Service---------------\n";
+sudo systemctl start nginx;
+# Allow nginx on firewall
+echo -e "------------Allow ${brown}Nginx on firewall.${white}----------------\n";
+sudo ufw allow "Nginx HTTP";
+
+# Enable firewall incase it is not
+echo "${brown}Enable firewall${white}"
+sudo ufw enable
+
+# Give current user owership to web file
+echo 'Giving you ownership to web files'
+sudo chown -R '$USER':'$USER' /var/www/html
+sudo chmod -R 775 /var/www
+
+# Backup the default index page
+echo 'Backing up index page'
+cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.backup;
+
+# Edit the default index page
+echo 'Let edit the default index';
+echo 'Hello World!' > /var/www/html/index.nginx-debian.html;
+
+# Restart nginx service
+echo -e "Restart ${brown}Nginx ${white}service\n";
+sudo nginx -s reload;
+
+# Configuration complete
+echo -e "Configuration completed\n";
+
+#Resquesting for page
+echo  'Requesting for the new  page'
+sudo curl -i localhost:80
