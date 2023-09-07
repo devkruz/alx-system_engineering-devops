@@ -1,5 +1,5 @@
 # 1. Install a package-flask
-package { 'flask':
+package {'flask':
   ensure   => '2.1.0',
-  provider => 'pip3'
+  provider => 'pip3',
 }
