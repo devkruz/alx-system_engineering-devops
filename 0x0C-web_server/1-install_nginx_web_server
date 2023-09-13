@@ -2,13 +2,13 @@
 # configures nginx on a new Ubuntu machine
 
 # Color styles
-# blue='\e[1;34m'
+blue='\e[1;34m'
 brown='\e[0;33m'
 # green='\e[1;32m'
 white='\033[0m'
 # red='\033[31m'
 
-echo -e "Let setup ${brown}Nginx.${white}\n";
+echo -e "Let setup ${brown}Nginx on ${blue}Ubuntu ${white} machine.\n";
 echo -e "Update apt packege\n";
 sudo apt update;
 
@@ -23,21 +23,22 @@ echo -e "------------Allow ${brown}Nginx on firewall.${white}----------------\n"
 sudo ufw allow "Nginx HTTP";
 
 # Enable firewall incase it is not
-echo "${brown}Enable firewall${white}"
+echo -e "${brown}Enable firewall${white}\n"
 sudo ufw enable
 
 # Give current user owership to web file
-echo 'Giving you ownership to web files'
-sudo chown -R '$USER':'$USER' /var/www/html
+echo -e 'Giving you ownership to web files\n'
+sudo chown -R "$USER":"$USER" /var/www/html
 sudo chmod -R 775 /var/www
 
 # Backup the default index page
-echo 'Backing up index page'
-cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.backup;
+# echo -e 'Backing up index page\n'
+# cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.backup;
 
 # Edit the default index page
-echo 'Let edit the default index';
+echo -e 'Let edit the default index\n';
 echo 'Hello World!' > /var/www/html/index.nginx-debian.html;
+# cat index.html > /var/www/html/index.nginx-debian.html;
 
 # Restart nginx service
 echo -e "Restart ${brown}Nginx ${white}service\n";
@@ -47,5 +48,5 @@ sudo nginx -s reload;
 echo -e "Configuration completed\n";
 
 #Resquesting for page
-echo  'Requesting for the new  page'
-sudo curl -i localhost:80
+echo -e "${blue}Requesting for the new page${white}"
+sudo curl localhost:80
