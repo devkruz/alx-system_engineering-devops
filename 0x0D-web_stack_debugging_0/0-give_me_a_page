@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Start apache2 server
+
+echo 'ServerName 127.0.0.1' >> /etc/apache2/apache2.conf
+
+sudo apachectl configtest
+
+sudo service apache2 reload
+
+sudo service apache2 start
+
+sudo systemctl reload apache2.service
+
