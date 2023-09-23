@@ -23,17 +23,17 @@ echo -e "------------Allow ${brown}Nginx on firewall.${white}----------------\n"
 sudo ufw allow "Nginx HTTP";
 
 # Enable firewall incase it is not
-echo -e "${brown}Enable firewall${white}\n"
-sudo ufw enable
+# echo -e "${brown}Enable firewall${white}\n"
+# sudo ufw enable
 
 # Give current user owership to web file
 echo -e 'Giving you ownership to web files\n'
 sudo chown -R "$USER":"$USER" /var/www/html
 sudo chmod -R 775 /var/www
 
-# Backup the default index page
-# echo -e 'Backing up index page\n'
-# cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.backup;
+Backup the default index page
+echo -e 'Backing up index page\n'
+cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.backup;
 
 # Edit the default index page
 echo -e 'Let edit the default index\n';
