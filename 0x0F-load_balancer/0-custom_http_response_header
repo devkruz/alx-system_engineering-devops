@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Create custom 404 error page
+
 # configures nginx on a new Ubuntu machine
 
 # Color styles
@@ -31,17 +33,45 @@ echo -e 'Giving you ownership to web files\n'
 sudo chown -R "$USER":"$USER" /var/www/html
 sudo chmod -R 775 /var/www/html
 
-Backup the default index page
+# Backup the default index page
 echo -e 'Backing up index page\n'
 cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.backup;
 
 # Edit the default index page
 echo -e 'Let edit the default index\n';
-echo -e "Hello World!" > /var/www/html/index.nginx-debian.html;
+echo "Hello World!" > /var/www/html/index.nginx-debian.html;
 # cat index.html > /var/www/html/index.nginx-debian.html;
+
+new_server="server_name _;\n\n\tlocation = /redirect_me {\n\t\treturn 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n\t}"
+
+# Give current user owership to server files
+sudo chown -R "$USER":"$USER" /etc/nginx/sites-available
+sudo chmod -R 775 /etc/nginx/sites-available
+
+# Edit /etc/nginx/site-available/default
+file="/etc/nginx/sites-available/default"
+sudo sed -i "s+server_name _;+$new_server+" $file
+echo -e "Added Config:\n${new_server}"
+
+# create error page
+sudo touch /var/www/html/my_404.html
+sudo echo "Ceci n'est pas une page" > /var/www/html/my_404.html
+
+# Edit config file to server new error page
+# Edit /etc/nginx/site-available/default
+
+content="server_name _;\n\terror_page 404 /my_404.html;"
+sudo sed -i "s+server_name _;+$content+" $file
+echo -e "Added Config:\n${content}"
+
+# Add custom server header
+custom_header='server_name _;\n\tadd_header X-Served-By $host;'
+
+sudo sed -i "s+server_name;+$custom_header+" $file
 
 # Restart nginx service
 echo -e "Restart ${brown}Nginx ${white}service\n";
+
 sudo nginx -s reload;
 
 # Configuration complete
@@ -49,4 +79,7 @@ echo -e "Configuration completed\n";
 
 #Resquesting for page
 echo -e "${blue}Requesting for the new page${white}"
-sudo curl localhost:80
+sudo curl localhost
+sudo curl localhost/redirect_me
+sudo curl localhost/no_page
+
