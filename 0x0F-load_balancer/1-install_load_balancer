@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# Install and configure a HAproxy load balancer
+
+# Install HAproxy
+sudo apt-get update && sudo apt upgrade;
+sudo apt install software-properties-common;
+sudo add-apt-repository ppa:vbernat/haproxy-2.5;
+sudo apt update;
+sudo apt install haproxy;
+
+# HAproxy version check
+sudo haproxy -v
+
+sudo chown -R "$USER": /etc/haproxy/haproxy.cfg
+
+# HAproxy configuration
+sudo cp -a /etc/haproxy/haproxy.cfg{,.orig}
+new_setup="
+froend haproxy-main
+        bind *:80
+        option forwardfor
+        default_backend apache_webservers
+
+backend apache_webservers
+        balcance roundrobin
+        server web01    52.91.128.1:80 check
+        server web02    35.153.57.125:80 check
+
+listen stats
+    bind :8800
+    stats enable
+    stats uri /
+    stats hide-version
+    stats auth adetola:Spaco
+    default_backend apache_webservers
+";
+
+echo "${new_setup}" >> /etc/haproxy/haproxy.cfg
+
+sudo systemctl restart haproxy
+
